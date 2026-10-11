@@ -45,19 +45,19 @@
 
 ### Install Elixir
 
-Elixir runs on the Erlang virtual machine, so **Erlang/OTP is required** — Elixir cannot run without
+Elixir runs on the Erlang virtual machine, so **Erlang/OTP is required** Elixir cannot run without
 it. Every package manager below installs Erlang/OTP for you as a dependency. The only path that needs
 a separate Erlang step is the Windows manual installer (see below).
 
 **Windows:**
 
-*Option A — package manager (recommended, installs Erlang automatically):*
+*Option A package manager (recommended, installs Erlang automatically):*
 
 ```cmd
 winget install Elixir.Elixir
 ```
 
-*Option B — manual installer (two installers, in this order):*
+*Option B manual installer (two installers, in this order):*
 
 1. Download and run the **Erlang/OTP installer** from https://www.erlang.org/downloads
 2. Run `erl -s halt` to check which OTP version you got
@@ -105,8 +105,8 @@ elixir --version
 **Clone the repository:**
 
 ```bash
-git clone https://github.com/Yuurisan-N1/Diggominer-Miniapp.git
-cd Diggominer-Miniapp
+git clone https://github.com/Yuurisan-N1/Diggo-Miniapp.git
+cd Diggo-Miniapp
 ```
 
 **Install dependencies:**
@@ -172,20 +172,6 @@ elixir --erl "+Bc" bot.exs
 
 Or just double click `run_pc.bat`, which runs the Windows command above.
 
-The Erlang runtime flag is **required** on both platforms, but it is **not the same flag**:
-
-- **Linux / macOS** needs `+Bd`. `+Bd` removes the Erlang break handler so the console stays quiet on `Ctrl+C`.
-- **Windows** needs `+Bc`. Windows ignores `+Bd` completely, so without `+Bc` `Ctrl+C` only prints the `BREAK: (a)bort ...` menu and the bot keeps running. `+Bc` hands `CTRL_C_EVENT` back to the operating system, which kills the process outright.
-
-### Stopping the bot
-
-| Platform | How to stop | `Script stopped by user` |
-|---|---|---|
-| Linux / macOS | `kill <pid>` | yes — printed in red, then exit code 0 |
-| Windows | Close the terminal window | no — the process is killed by Windows |
-
-SIGINT cannot be trapped inside the Erlang VM on any operating system, so `Ctrl+C` never prints the stop line for an Elixir bot. On Linux and macOS the line comes from the termination signal instead (`kill <pid>`), which is how the bot is stopped on a VPS. On Windows the console terminates the process before Elixir sees anything — just close the window.
-
 ---
 
 ## Features
@@ -194,7 +180,7 @@ SIGINT cannot be trapped inside the Erlang VM on any operating system, so `Ctrl+
 At the start of every account the bot signs in with the `initData` and logs the account name together with the current DIGGO balance. An account whose `initData` is refused is reported and skipped before any other request is sent.
 
 ### Mining Cycle
-The mining pool accrues for eight hours and the server publishes the exact moment it becomes claimable. While the pool is still accruing the bot prints how much time is left and moves straight on to the next phase — it never parks the cycle on a multi-hour countdown, so every account is processed on every pass. When the pool is ready the claim is sent and the amount the server credits is logged.
+The mining pool accrues for eight hours and the server publishes the exact moment it becomes claimable. While the pool is still accruing the bot prints how much time is left and moves straight on to the next phase it never parks the cycle on a multi-hour countdown, so every account is processed on every pass. When the pool is ready the claim is sent and the amount the server credits is logged.
 
 ### Daily Tasks
 Every task the server reports as due is processed in a fixed order: the daily check in, the Telegram community task, the X social tasks, the invite task, the map level task and the reward ad. A task that was already completed is passed over instead of being claimed twice, and a task that still needs a manual channel join is reported as such. Every task is claimed with a fresh idempotency key, so a repeated cycle can never credit the same task twice.
@@ -228,7 +214,7 @@ Every wait inside the cycle displays a live `HH:MM:SS` countdown in place, and a
 ## File Structure
 
 ```text
-Diggominer-Miniapp/
+Diggo-Miniapp/
 ├── bot.exs         # Main bot, full daily cycle automation
 ├── config.json     # Sleep duration between cycles
 ├── data.txt        # Account initData, one per line
